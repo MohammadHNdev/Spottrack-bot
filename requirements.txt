@@ -1,0 +1,8 @@
+aiogram
+spotipy
+pymongo
+python-dotenv
+loguru
+yt-dlp
+mutagen
+aiofiles

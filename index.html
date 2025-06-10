@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpotTrack Bot - ربات تلگرام دانلود از اسپاتیفای</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+
+    <style>
+        :root {
+            --spotify-green: #1DB954;
+            --telegram-blue: #0088cc;
+            --dark-bg: #121212;
+            --surface-bg: #181818;
+            --card-bg: #282828;
+            --text-primary: #FFFFFF;
+            --text-secondary: #b3b3b3;
+            --border-color: #404040;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            background-image: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 1)), url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+        
+        .hero-content h1 .highlight {
+            color: var(--spotify-green);
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        
+        .cta-telegram {
+            background-color: var(--telegram-blue);
+            color: white;
+        }
+        
+        .cta-github {
+            background-color: #333;
+            color: white;
+            margin-right: 15px;
+        }
+
+        .hero-cta:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Section Styles --- */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+        
+        .section-title .highlight {
+            color: var(--spotify-green);
+        }
+
+        /* --- Features Section --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card .icon {
+            font-size: 3rem;
+            color: var(--spotify-green);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* --- Architecture Section --- */
+        .architecture-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .flow-item {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 150px;
+        }
+        
+        .flow-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .flow-item.user .icon { color: var(--telegram-blue); }
+        .flow-item.bot .icon { color: #7289da; } /* Discord-like color for bot */
+        .flow-item.spotify .icon { color: var(--spotify-green); }
+        .flow-item.downloader .icon { color: #FF0000; } /* YouTube red */
+        .flow-item.db .icon { color: #4DB33D; } /* MongoDB green */
+
+        .flow-arrow {
+            font-size: 2rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- Setup Section --- */
+        .setup-steps {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            margin-bottom: 40px;
+        }
+        
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--spotify-green);
+        }
+        
+        .code-block {
+            background-color: #0d1117;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .code-block-header {
+            background-color: #161b22;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: color 0.2s, background-color 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background-color: var(--border-color);
+            color: var(--text-primary);
+        }
+        
+        .code-block pre {
+            padding: 20px;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .code-block code {
+            font-family: 'Vazirmatn', monospace;
+            font-size: 0.95rem;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--surface-bg);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer p {
+            color: var(--text-secondary);
+        }
+        
+        .footer a {
+            color: var(--spotify-green);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* --- Animation --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1.1rem; }
+            .section-title { font-size: 2rem; }
+            .architecture-flow { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); margin: 15px 0; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-cta {
+                display: block;
+                margin: 10px 0;
+            }
+            .cta-github { margin-right: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content fade-in visible">
+            <h1><span class="highlight">SpotTrack</span> Bot</h1>
+            <p>ربات تلگرام هوشمند برای دانلود مستقیم موزیک‌های مورد علاقه‌تان از اسپاتیفای با بالاترین کیفیت.</p>
+            <div>
+                <a href="https://github.com/MohammadHNdev" target="_blank" class="hero-cta cta-github"><i class="fab fa-github"></i> مشاهده در گیت‌هاب</a>
+                <a href="#" class="hero-cta cta-telegram"><i class="fab fa-telegram-plane"></i> افزودن به تلگرام</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Features Section -->
+        <section id="features" class="section">
+            <div class="container">
+                <h2 class="section-title">قابلیت‌های <span class="highlight">شگفت‌انگیز</span></h2>
+                <div class="features-grid">
+                    <div class="feature-card fade-in">
+                        <div class="icon"><i class="fas fa-music"></i></div>
+                        <h3>اطلاعات کامل آهنگ</h3>
+                        <p>دریافت نام، خواننده، آلبوم و کاور با کیفیت بالا فقط با ارسال لینک اسپاتیفای.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="icon"><i class="fas fa-download"></i></div>
+                        <h3>دانلود با کیفیت MP3</h3>
+                        <p>تبدیل و دانلود آهنگ‌ها به فرمت MP3 با کیفیت ۱۹۲kbps برای بهترین تجربه شنیداری.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="icon"><i class="fas fa-sync-alt"></i></div>
+                        <h3>سیستم پروکسی چرخشی</h3>
+                        <p>استفاده از پروکسی‌های چرخشی برای افزایش پایداری و دور زدن محدودیت‌های اسپاتیفای.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="icon"><i class="fas fa-archive"></i></div>
+                        <h3>آرشیو هوشمند</h3>
+                        <p>آهنگ‌های دانلود شده در کانال تلگرام آرشیو می‌شوند تا در درخواست‌های بعدی فوراً ارسال شوند.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="icon"><i class="fas fa-crown"></i></div>
+                        <h3>پشتیبانی از کاربران VIP</h3>
+                        <p>مدیریت محدودیت دانلود روزانه برای کاربران عادی و ارائه دسترسی نامحدود به کاربران VIP.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="icon"><i class="fas fa-comments"></i></div>
+                        <h3>رابط کاربری تعاملی</h3>
+                        <p>تجربه کاربری لذت‌بخش با کیبوردهای تعاملی، پشتیبانی چندزبانه و انیمیشن پیشرفت دانلود.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="architecture" class="section" style="background-color: var(--surface-bg);">
+            <div class="container">
+                <h2 class="section-title">معماری و <span class="highlight">جریان کار</span></h2>
+                <div class="architecture-flow">
+                    <div class="flow-item user fade-in"><div class="icon"><i class="fas fa-user"></i></div><span>کاربر</span></div>
+                    <div class="flow-arrow fade-in"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-item bot fade-in"><div class="icon"><i class="fab fa-telegram"></i></div><span>ربات تلگرام (Aiogram)</span></div>
+                    <div class="flow-arrow fade-in"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-item spotify fade-in"><div class="icon"><i class="fab fa-spotify"></i></div><span>Spotify API (با پروکسی)</span></div>
+                    <div class="flow-arrow fade-in"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-item downloader fade-in"><div class="icon"><i class="fab fa-youtube"></i></div><span>Downloader (yt-dlp)</span></div>
+                    <div class="flow-arrow fade-in"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-item db fade-in"><div class="icon"><i class="fas fa-database"></i></div><span>MongoDB</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Setup Section -->
+        <section id="setup" class="section">
+            <div class="container">
+                <h2 class="section-title">نصب و <span class="highlight">راه‌اندازی</span></h2>
+                <div class="setup-steps">
+                    <div class="step fade-in">
+                        <h3>۱. کلون کردن پروژه</h3>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>Bash</span><button class="copy-btn">کپی</button></div>
+                            <pre><code>git clone https://github.com/YOUR_USERNAME/spotify_telegram_bot.git
+cd spotify_telegram_bot</code></pre>
+                        </div>
+                    </div>
+                    <div class="step fade-in">
+                        <h3>۲. نصب پیش‌نیازها</h3>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>Bash</span><button class="copy-btn">کپی</button></div>
+                            <pre><code># Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install Python packages
+pip install -r requirements.txt
+
+# Install ffmpeg (on Debian/Ubuntu)
+sudo apt update && sudo apt install ffmpeg</code></pre>
+                        </div>
+                    </div>
+                    <div class="step fade-in">
+                        <h3>۳. تنظیمات و پیکربندی</h3>
+                        <p>یک فایل <code>config.py</code> بسازید و مقادیر زیر را با اطلاعات خودتان پر کنید.</p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>Python</span><button class="copy-btn">کپی</button></div>
+                            <pre><code>TELEGRAM_BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"
+SPOTIPY_CLIENT_ID = "YOUR_SPOTIPY_CLIENT_ID"
+SPOTIPY_CLIENT_SECRET = "YOUR_SPOTIPY_CLIENT_SECRET"
+ARCHIVE_CHANNEL_ID = -100123456789  # آیدی عددی کانال آرشیو
+PROXIES = [
+    "http://user:pass@ip:port",
+    # ...
+]
+MONGO_URI = "mongodb://localhost:27017"
+# ... سایر تنظیمات</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>طراحی و توسعه با ❤️ توسط <a href="https://github.com/MohammadHNdev" target="_blank">محمدحسین نوروزی</a></p>
+            <p>تمامی حقوق این پروژه متعلق به توسعه‌دهنده است.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- JavaScript for Copy Button and Scroll Animations ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Copy to Clipboard
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const code = button.closest('.code-block').querySelector('pre code').innerText;
+                    navigator.clipboard.writeText(code).then(() => {
+                        button.innerText = 'کپی شد!';
+                        setTimeout(() => {
+                            button.innerText = 'کپی';
+                        }, 2000);
+                    });
+                });
+            });
+
+            // Scroll Animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            const elementsToAnimate = document.querySelectorAll('.fade-in');
+            elementsToAnimate.forEach(el => observer.observe(el));
+        });
+    </script>
+
+</body>
+</html>
